@@ -144,7 +144,6 @@ async function loadFeaturedPlaces() {
     placesGrid.appendChild(card);
   }
 
-  // Fetch real Wikipedia thumbnails and summaries when available.
   const cards = [...placesGrid.children];
 
   await Promise.all(featuredPlaces.map(async (item, index) => {
@@ -192,7 +191,6 @@ $("#placeForm").addEventListener("submit", async (event) => {
   }
 });
 
-// Location lookup using OpenStreetMap's public geocoding service.
 async function geocodeLocation(query) {
   const url = new URL("https://nominatim.openstreetmap.org/search");
   url.search = new URLSearchParams({
@@ -331,7 +329,7 @@ $("#gpsButton").addEventListener("click", () => {
   );
 });
 
-// AI chat: connects to the backend route in server.js.
+// AI Chat handling
 const chatForm = $("#chatForm");
 const chatInput = $("#chatInput");
 const chatMessages = $("#chatMessages");
@@ -367,15 +365,8 @@ chatForm.addEventListener("submit", async (event) => {
 
   const waiting = addChatBubble("Thinking...", "bot");
 
-  const apiKey = "AQ.Ab8RN6LIz7ip4DvR3bPrrxdmPuZw-mE7SLo33mfCw7u1foZrVA";
-  if (!apiKey) {
-    waiting.textContent = "Please set your Gemini API Key in script.js first.";
-    chatStatus.textContent = "Missing API Key.";
-    chatSend.disabled = false;
-    return;
-  }
+  const apiKey = "YOUR_GEMINI_API_KEY"; // Replace with your actual Gemini API key
 
-  // Convert history format
   const geminiHistory = chatHistory.map(msg => ({
     role: msg.role === 'assistant' ? 'model' : 'user',
     parts: [{ text: msg.content }]
@@ -387,7 +378,7 @@ chatForm.addEventListener("submit", async (event) => {
   });
 
   try {
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${apiKey}`, {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -414,8 +405,7 @@ chatForm.addEventListener("submit", async (event) => {
 
     chatStatus.textContent = "";
   } catch (error) {
-    waiting.textContent =
-      "I couldn't connect to the AI right now. Check that the backend is running and your API key is set.";
+    waiting.textContent = "I couldn't connect to the AI right now. Check your API key.";
     chatStatus.textContent = error.message;
   } finally {
     chatSend.disabled = false;
@@ -426,71 +416,7 @@ chatForm.addEventListener("submit", async (event) => {
 
 loadFeaturedPlaces();
 
-// --- NEW FEATURES ---
-
-// 1. TEXT-TO-SPEECH (DISCOVER)
-function speakText(text) {
-  if ('speechSynthesis' in window) {
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    
-    // Attempt to select an Indian English or Hindi voice for better pronunciation of local terms
-    const voices = window.speechSynthesis.getVoices();
-    const indVoice = voices.find(v => v.lang.includes('IN') || v.lang.includes('hi'));
-    if (indVoice) utterance.voice = indVoice;
-    
-    window.speechSynthesis.speak(utterance);
-  } else {
-    alert("Text-to-speech is not supported in your browser.");
-  }
-}
-
-document.querySelectorAll('.listen-btn').forEach(btn => {
-  btn.addEventListener('click', (e) => {
-    const card = e.target.closest('article');
-    const title = card.querySelector('h3').textContent;
-    const text = card.querySelector('p').textContent;
-    speakText(`${title}. ${text}`);
-  });
-});
-
-// Load voices once to ensure they are available when requested
-if ('speechSynthesis' in window) {
-  window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
-}
-
-// 2. EXPLORE DISTRICTS
-const districtBtns = document.querySelectorAll('.district-btn');
-const exploreGrid = $('#placesGrid');
-const placeStatusEl = $('#placeStatus');
-
-districtBtns.forEach(btn => {
-  btn.addEventListener('click', async () => {
-    districtBtns.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const district = btn.dataset.district;
-    
-    placeStatusEl.textContent = `Loading famous places in ${district} district...`;
-    exploreGrid.innerHTML = '';
-    
-    try {
-      const result1 = await getWikipediaPlace(`Tourist attractions in ${district} district`);
-      const result2 = await getWikipediaPlace(`${district} district Jammu and Kashmir`);
-      const results = [result1, result2].filter(Boolean);
-      
-      if (results.length > 0) {
-        renderPlaces(results, exploreGrid);
-        placeStatusEl.textContent = `Showing details for ${district} district.`;
-      } else {
-        placeStatusEl.textContent = `No Wikipedia data found for ${district}. Try searching a specific place.`;
-      }
-    } catch (e) {
-      placeStatusEl.textContent = `Failed to load places for ${district}.`;
-    }
-  });
-});
-
-// 3. SMART ITINERARY PLANNER
+// --- SMART ITINERARY PLANNER ---
 const plannerForm = $('#plannerForm');
 const plannerResult = $('#plannerResult');
 
@@ -506,18 +432,13 @@ if(plannerForm) {
     
     const prompt = `I am currently at ${loc} in Jammu. I have ${time} hours available. I am traveling by ${mode}. My preferences and interests are: ${prefs}. Please create a detailed, step-by-step itinerary for me to visit places, try local food stalls, and experience the culture of Jammu within this specific time frame.`;
     
-    const apiKey = "AQ.Ab8RN6LIz7ip4DvR3bPrrxdmPuZw-mE7SLo33mfCw7u1foZrVA";
-    if (!apiKey) {
-      plannerResult.style.display = "block";
-      plannerResult.innerHTML = `<p style="color:red; font-weight:bold;">Please set your Gemini API Key in script.js first.</p>`;
-      return;
-    }
+    const apiKey = "YOUR_GEMINI_API_KEY"; // Replace with your actual Gemini API key
 
     plannerResult.style.display = "block";
     plannerResult.innerHTML = "<strong>Generating your custom itinerary using AI...</strong>";
     
     try {
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${apiKey}`, {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
@@ -532,63 +453,17 @@ if(plannerForm) {
       
       const reply = data.candidates[0].content.parts[0].text;
       plannerResult.innerHTML = `
-    <h3>Your Itinerary</h3>
-    <div class="itinerary-content">
-        ${escapeHTML(reply)
-            .replace(/^#{1,6}\s+/gm, '')
-            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-            .replace(/^\s*[-*]\s+/gm, '• ')
-            .replace(/\n/g, '<br>')}
-    </div>
-`;
+        <h3>Your Itinerary</h3>
+        <div class="itinerary-content">
+            ${escapeHTML(reply)
+                .replace(/^#{1,6}\s+/gm, '')
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/^\s*[-*]\s+/gm, '• ')
+                .replace(/\n/g, '<br>')}
+        </div>
+      `;
     } catch (error) {
       plannerResult.innerHTML = `<p style="color:red">Could not generate itinerary. Error: ${error.message}</p>`;
     }
-  });
-}
-
-// 4. LIVE TRACKING
-let liveWatchId = null;
-const liveTrackBtn = $('#liveTrackBtn');
-const liveIndicator = $('#liveIndicator');
-
-if(liveTrackBtn) {
-  liveTrackBtn.addEventListener('click', () => {
-    if (!navigator.geolocation) {
-      $('#trackingStatus').textContent = "Geolocation not supported by your browser.";
-      return;
-    }
-    
-    if (liveWatchId) {
-      navigator.geolocation.clearWatch(liveWatchId);
-      liveWatchId = null;
-      liveTrackBtn.textContent = "🛰️ Start Live Tracking";
-      liveTrackBtn.style.background = "#d9534f";
-      $('#trackingStatus').textContent = "Live tracking stopped.";
-      liveIndicator.classList.remove('active');
-      return;
-    }
-    
-    liveTrackBtn.textContent = "🛑 Stop Live Tracking";
-    liveTrackBtn.style.background = "#746763";
-    $('#trackingStatus').textContent = "Locating your position...";
-    liveIndicator.classList.add('active');
-    
-    liveWatchId = navigator.geolocation.watchPosition(
-      (position) => {
-        const lat = position.coords.latitude;
-        const lon = position.coords.longitude;
-        const speed = position.coords.speed ? (position.coords.speed * 3.6).toFixed(1) : 0;
-        
-        $('#trackingStatus').innerHTML = `Live: Lat ${lat.toFixed(4)}, Lon ${lon.toFixed(4)}<br>
-          Estimated Speed: ${speed} km/h<br>
-          <a href="https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}#map=18/${lat}/${lon}" target="_blank" style="text-decoration:underline;">View Live on Map ↗</a>`;
-      },
-      (err) => {
-        $('#trackingStatus').textContent = "Error getting live location: " + err.message;
-        liveIndicator.classList.remove('active');
-      },
-      { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 }
-    );
   });
 }
