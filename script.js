@@ -365,7 +365,7 @@ chatForm.addEventListener("submit", async (event) => {
 
   const waiting = addChatBubble("Thinking...", "bot");
 
-  const apiKey = "YOUR_GEMINI_API_KEY"; // Replace with your actual Gemini API key
+  const apiKey = document.getElementById("apiKeyInput")?.value.trim() || "YOUR_GEMINI_API_KEY";
 
   const geminiHistory = chatHistory.map(msg => ({
     role: msg.role === 'assistant' ? 'model' : 'user',
