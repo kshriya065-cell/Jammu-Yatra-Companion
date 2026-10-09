@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jammu Yatra Companion  | Explore Jammu</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+  <header class="navbar">
+    <a class="logo" href="#">Jammu<span>Yatra</span></a>
+    <nav>
+      <a href="#planner">Plan Trip</a>
+      <a href="#explore">Explore</a>
+      <a href="#food">Discover</a>
+      <a href="#nearby">GPS & Track</a>
+      <a href="#assistant">AI Assistant</a>
+      <a href="#temples">Temples</a>
+    </nav>
+  </header>
+    <div class="brand">
+    <div class="brand-logo">JYC</div>
+    <div class="brand-text">
+        <h2>Jammu Yatra Companion</h2>
+        <p>Discover Jammu • Experience Divinity</p>
+    </div>
+</div>
+  <section class="hero">
+    <div class="hero-content">
+      <p class="eyebrow">THE CITY OF TEMPLES</p>
+      <h1>Discover the beauty<br>of <span>Jammu</span></h1>
+      <p>Explore iconic places across all districts, discover local flavours, listen to the history, and plan your live
+        tracking journey.</p>
+      <a class="primary-btn" href="#planner">Start planning ↓</a>
+    </div>
+  </section>
+
+  <main>
+</section>
+    <section class="section" id="planner">
+      <p class="eyebrow">YOUR CUSTOM JOURNEY</p>
+      <h2>Smart Itinerary Planner</h2>
+      <div class="jammu-badge">
+        <span> EXPLORE </span>
+        <small> JAMMU </small>
+      </div>
+      <p class="muted">Enter your details and let AI plan your perfect visit in available hours.</p>
+      <form id="plannerForm" class="planner-form">
+        <input type="text" id="planLocation" placeholder="Starting Location (e.g. Jammu Airport)" required>
+        <input type="number" id="planTime" placeholder="Available Time (in hours)" min="1" required>
+        <select id="planMode" required>
+          <option value="" disabled selected>Select Travel Mode</option>
+          <option value="car">Car / Taxi</option>
+          <option value="bike">Two Wheeler</option>
+          <option value="public">Public Transport</option>
+          <option value="walk">Walking</option>
+        </select>
+        <p style="margin: 5px 0 0 0; font-size: 14px; font-weight: bold;">Preferences:</p>
+        <div class="preferences">
+          <label><input type="checkbox" value="Heritage" class="plan-pref"> Heritage</label>
+          <label><input type="checkbox" value="Food" class="plan-pref"> Food</label>
+          <label><input type="checkbox" value="Culture" class="plan-pref"> Culture</label>
+          <label><input type="checkbox" value="Nature" class="plan-pref"> Nature</label>
+        </div>
+        <button type="submit" class="primary-btn">Generate My Plan</button>
+      </form>
+      <div id="plannerResult" class="planner-result"></div>
+    </section>
+
+    <section class="section" id="explore">
+      <p class="eyebrow">EXPLORE BEYOND</p>
+      <h2>Districts of Jammu Region</h2>
+      <p class="muted">Explore places across all the 10 districts of the Jammu division.</p>
+      <div class="district-tags">
+        <button class="district-btn active" data-district="Jammu">Jammu</button>
+        <button class="district-btn" data-district="Samba">Samba</button>
+        <button class="district-btn" data-district="Kathua">Kathua</button>
+        <button class="district-btn" data-district="Udhampur">Udhampur</button>
+        <button class="district-btn" data-district="Reasi">Reasi</button>
+        <button class="district-btn" data-district="Rajouri">Rajouri</button>
+        <button class="district-btn" data-district="Poonch">Poonch</button>
+        <button class="district-btn" data-district="Doda">Doda</button>
+        <button class="district-btn" data-district="Ramban">Ramban</button>
+        <button class="district-btn" data-district="Kishtwar">Kishtwar</button>
+        <button class="district-btn" data-district="Basohli">Basohli</button>
+      </div>
+      <form id="placeForm" class="search-bar">
+        <input id="placeInput" placeholder="Or search any specific place (e.g. jammu )" required>
+        <button type="submit">Search</button>
+      </form>
+      <p id="placeStatus" class="status" aria-live="polite"></p>
+      <div id="placesGrid" class="grid"></div>
+    </section>
+
+    <section class="section food-section" id="food">
+      <p class="eyebrow">DISCOVER CULTURE & TASTE</p>
+      <h2>Cultural Foods & History</h2>
+      <p class="muted">Read and listen to the descriptions of famous foods and heritage.</p>
+      <div class="grid">
+        <article class="food-card">
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Rajma_Chawal.jpg" alt="Rajma chawal">
+            loading="lazy">
+          <div class="card-body">
+            <h3>Rajma Chawal</h3>
+            <p>A much-loved traditional meal of red kidney beans cooked in thick gravy with whole spices, usually served
+              with steamed rice. It holds immense cultural significance in Jammu.</p>
+            <button class="listen-btn" aria-label="Listen">🔊 Listen</button>
+          </div>
+        </article>
+        <article class="food-card">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSE0xzY-5PupBpKpO8EG5m6oMM_y3_YwGIp2lnWQlMZrpkDeb08Be88rP68&s=10" alt="Kalari Kulcha">
+          <div class="card-body">
+            <h3>Kalari Kulcha</h3>
+            <p>Jammu's famous traditional ripened cheese, known as Kalari. It is often pan-fried and served stuffed
+              inside a bun (kulcha) with tangy tamarind and spicy mint chutney.</p>
+            <button class="listen-btn" aria-label="Listen">🔊 Listen</button>
+          </div>
+        </article>
+        <article class="food-card">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ48NZynKZlJTUzf8xfyxFukN0HxV57hzTU7gfW0USqFA&s=10" alt="kachalu chaat " >
+          <div class="card-body">
+            <h3>kachalu chaat </h3> 
+            <p>A tangy local snack made from colocasia and mixed with spices and sour flavour.A great choice for
+               visitor who want to explore the region's street-food culture.</p>
+            <button class="listen-btn" aria-label="Listen">🔊 Listen</button>
+          </div>
+        </article>
+      </div>
+
+      <div class="history-grid" style="margin-top: 30px;">
+        <article>
+          <img src="https://avathioutdoors.gumlet.io/travelGuide/dev/jammu_P9199.jpg" alt="bahu fort">
+          <h3>Bahu fort</h3>
+          <p>A historic fort situated on the banks of Tawi river. It was built over 3,000 years ago by Raja Bahulochan.
+            The fort houses a temple dedicated to the Hindu goddess Kali, known locally as Bawe Wali Mata.</p>
+          <button class="listen-btn">🔊 Listen</button>
+        </article>
+        <article>
+          <img src="https://temple.yatradham.org/public/Product/temple/temple_cCcyMSLl_202506301516140.webp" alt="Raghunath temple ">
+          <h3>Raghunath Temple</h3>
+          <p>One of the largest temple complexes in northern India. Built by Maharaja Gulab Singh and his son Maharaja
+            Ranbir Singh in the mid-19th century, it has seven shrines with gold-plated spires.</p>
+          <button class="listen-btn">🔊 Listen</button>
+        </article>
+        <article>
+          <img src= "https://s7ap1.scene7.com/is/image/incredibleindia/1-mubarak-mandi-parj-jammu-jk-attr-nearby?qlt=82&ts=1742155591914" alt="dogra heritage">
+          <h3>Dogra Heritage</h3>
+          <p>The Dogra dynasty formed the erstwhile Kingdom of Jammu and Kashmir. Their vibrant culture, traditional art
+            forms like Basohli paintings, and martial history remain central to the region's identity.</p>
+          <button class="listen-btn">🔊 Listen</button>
+        </article>
+      </div>
+    </section>
+
+    <section class="section nearby-section" id="nearby">
+      <p class="eyebrow">GPS & NAVIGATION</p>
+      <h2 style="display:flex; align-items:center; gap:10px;">Find Places & Live Track <span class="live-indicator"
+          id="liveIndicator"></span></h2>
+      <p class="muted">Use your GPS to find nearby attractions or enable live tracking for your journey.</p>
+      <form id="locationForm" class="search-bar">
+        <input id="locationInput" placeholder="Enter a location, e.g. Jammu Railway Station" required>
+        <button type="submit">Find places</button>
+      </form>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
+        <button id="gpsButton" class="secondary-btn" type="button">📍 Find Nearby (GPS)</button>
+        <button id="liveTrackBtn" class="primary-btn" style="background:#d9534f;" type="button">🛰️ Start Live
+          Tracking</button>
+      </div>
+      <p id="trackingStatus" class="status" style="margin-top:10px; font-weight:bold; color:#d9534f;"></p>
+      <p id="nearbyStatus" class="status" aria-live="polite"></p>
+      <div id="nearbyGrid" class="grid"></div>
+    </section>
+
+    <section class="section ai-section" id="assistant">
+      <p class="eyebrow">MULTILINGUAL TRAVEL COMPANION</p>
+      <h2>Ask Jammu Yatra AI ✨</h2>
+      <p class="muted">I can speak English, Hindi, and Dogri. Ask me anything about your trip!</p>
+
+      <div style="margin-bottom: 10px;">
+        <label for="aiLanguage" style="font-weight:bold; font-size:14px; margin-right:5px;">AI Language:</label>
+        <select id="aiLanguage" class="ai-lang-select">
+          <option value="English">English</option>
+          <option value="Hindi">Hindi (हिंदी)</option>
+          <option value="Dogri">Dogri (डोगरी)</option>
+        </select>
+      </div>
+
+      <div id="chatMessages" class="chat-messages" aria-live="polite">
+        <div class="bubble bot">Namaste! 👋 I'm your Jammu Yatra assistant. What would you like to explore?</div>
+      </div>
+
+      <form id="chatForm" class="search-bar">
+        <input id="chatInput" placeholder="Ask me something about Jammu..." maxlength="2000" required>
+        <button id="chatSend" type="submit">Send ↗</button>
+      </form>
+      <p id="chatStatus" class="status" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <footer>
+<footer class="footer">
+    <div class="footer-content">
+
+        <div class="footer-about">
+            <h2>Jammu Yatra Companion</h2>
+            <p>Less Searching, More Exploring!</p>
+            <p>Discover the beauty, culture and heritage of Jammu.</p>
+        </div>
+
+        <div class="footer-links">
+            <h3>Quick Links</h3>
+            <a href="#home">Home</a>
+            <a href="#plan-trip">Plan Trip</a>
+            <a href="#explore">Explore</a>
+            <a href="#discover">Discover</a>
+            <a href="#temples">Temples</a>
+        </div>
+
+        <div class="footer-contact">
+            <h3>Explore Jammu</h3>
+            <p>Discover beautiful places</p>
+            <p>Experience Dogra culture</p>
+            <p>Enjoy local food</p>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2026 Jammu Yatra Companion. All rights reserved.</p>
+        <p>Made with ❤️ for Jammu</p>
+    </div>
+</footer>
+</body>
+
+</html>
